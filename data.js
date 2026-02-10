@@ -21,8 +21,6 @@ export const STAGES = [
 export const TRAVEL_MODES = [
   { id: "ebike",        label: "E-Bike",        labelPt: "E-Bike",          icon: "⚡", desc: "Premium e-bike, comfortable 40-60km/day", descPt: "E-bike premium, confortável 40-60km/dia", avgKm: 50 },
   { id: "cycling",      label: "Cycling",       labelPt: "Ciclismo",        icon: "🚲", desc: "Standard cycling, avg 40km/day",           descPt: "Ciclismo padrão, média 40km/dia",         avgKm: 40 },
-  { id: "walking",      label: "Walking",       labelPt: "Caminhada",       icon: "🥾", desc: "Classic walking, avg 20km/day",            descPt: "Caminhada clássica, média 20km/dia",       avgKm: 20 },
-  { id: "easy_walking", label: "Easy Walking",  labelPt: "Caminhada Leve",  icon: "🚶", desc: "Relaxed pace, avg 12km/day",               descPt: "Ritmo relaxado, média 12km/dia",           avgKm: 12 },
 ];
 
 export const HOTEL_CATS = [

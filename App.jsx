@@ -20,6 +20,7 @@ export default function App() {
   const [startDate, setStartDate] = useState('')
   const [firstStage, setFirstStage] = useState(0)
   const [lastStage, setLastStage] = useState(STAGES.length - 1)
+  const [intermediateStages, setIntermediateStages] = useState(new Set())
   const [rooms, setRooms] = useState({ single: 0, twin: 0, double: 1 })
   const [stageNights, setStageNights] = useState({})
   const [selectedAddons, setSelectedAddons] = useState({})
@@ -33,7 +34,18 @@ export default function App() {
   const tx = TRANSLATIONS[lang]
 
   // Derived calculations
-  const activeStages = STAGES.slice(firstStage, lastStage + 1)
+  const activeStages = useMemo(() => {
+    if (intermediateStages.size === 0) {
+      // Default: all stages between first and last
+      return STAGES.slice(firstStage, lastStage + 1)
+    }
+    // Custom: only selected stages
+    return STAGES.filter((stage, idx) => {
+      if (idx === firstStage || idx === lastStage) return true
+      if (idx < firstStage || idx > lastStage) return false
+      return intermediateStages.has(stage.id)
+    })
+  }, [firstStage, lastStage, intermediateStages])
   const totalKm = activeStages.reduce((sum, s) => sum + s.km, 0)
   const totalNights = activeStages.reduce((sum, s, i) => {
     if (i === activeStages.length - 1) return sum + (stageNights[s.id] || 0)
@@ -59,7 +71,7 @@ export default function App() {
     + addonTotal
 
   const refs = {
-    mode: useRef(null), hotel: useRef(null), dates: useRef(null),
+    mode: useRef(null), hotel: useRef(null), dates: useRef(null), route: useRef(null),
     itinerary: useRef(null), ebike: useRef(null), addons: useRef(null), summary: useRef(null),
   }
   const scrollTo = (key) => {
@@ -67,12 +79,57 @@ export default function App() {
     setActiveSection(key)
   }
 
+  // Route selection handlers
+  const handleFirstStageChange = (newFirst) => {
+    setFirstStage(newFirst)
+    if (newFirst > lastStage) setLastStage(newFirst)
+    // Clear intermediate selections outside new range
+    setIntermediateStages(prev => {
+      const newSet = new Set(prev)
+      STAGES.forEach((stage, idx) => {
+        if (idx <= newFirst || idx >= lastStage) {
+          newSet.delete(stage.id)
+        }
+      })
+      return newSet
+    })
+  }
+
+  const handleLastStageChange = (newLast) => {
+    setLastStage(newLast)
+    // Clear intermediate selections outside new range
+    setIntermediateStages(prev => {
+      const newSet = new Set(prev)
+      STAGES.forEach((stage, idx) => {
+        if (idx <= firstStage || idx >= newLast) {
+          newSet.delete(stage.id)
+        }
+      })
+      return newSet
+    })
+  }
+
+  const handleIntermediateToggle = (stageId) => {
+    setIntermediateStages(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(stageId)) {
+        newSet.delete(stageId)
+      } else {
+        newSet.add(stageId)
+      }
+      return newSet
+    })
+  }
+
   // Build quote text for mailto
   const buildQuoteBody = () => {
+    const routeDescription = intermediateStages.size > 0
+      ? `Custom route: ${activeStages.map(s => s.name).join(' → ')}`
+      : `Route: ${STAGES[firstStage].name} → ${STAGES[lastStage].name} (all cities)`
     const lines = [
       `Name: ${formData.name}`, `Email: ${formData.email}`, `Phone: ${formData.phone}`,
       ``, `--- Trip Details ---`,
-      `Route: ${STAGES[firstStage].name} → ${STAGES[lastStage].name}`,
+      routeDescription,
       `Distance: ${totalKm} km | Nights: ${totalNights}`,
       `Travel Mode: ${TRAVEL_MODES.find(m => m.id === travelMode)?.label}`,
       `Hotel: ${HOTEL_CATS.find(c => c.id === hotelCat)?.label}`,
@@ -93,7 +150,8 @@ export default function App() {
     { key: 'mode', label: tx.travelMode, icon: '🚲' },
     { key: 'hotel', label: tx.hotel, icon: '🏨' },
     { key: 'dates', label: tx.dates, icon: '📅' },
-    { key: 'itinerary', label: tx.itinerary, icon: '🗺️' },
+    { key: 'route', label: tx.route, icon: '🗺️' },
+    { key: 'itinerary', label: tx.itinerary, icon: '📋' },
     ...(travelMode === 'ebike' ? [{ key: 'ebike', label: tx.ebike, icon: '⚡' }] : []),
     { key: 'addons', label: tx.addons, icon: '✨' },
     { key: 'summary', label: tx.summary, icon: '📋' },
@@ -233,24 +291,74 @@ export default function App() {
               <div className="date-display">{endDate ? formatDate(endDate) : tx.selectDates}</div>
             </div>
           </div>
+        </section>
+
+        {/* ── 3. Route Selection ── */}
+        <section ref={refs.route} className="section" id="route">
+          <SectionHead num={stepNum('route')} icon="🗺️" title={tx.route} />
+
+          {/* Start/End Selectors */}
           <div className="dates-grid">
             <div className="date-field">
               <label>{tx.firstNight}</label>
-              <select value={firstStage} onChange={e => {
-                const v = +e.target.value
-                setFirstStage(v)
-                if (v > lastStage) setLastStage(v)
-              }}>
+              <select value={firstStage} onChange={e => handleFirstStageChange(+e.target.value)}>
                 {STAGES.map((s, i) => <option key={s.id} value={i}>{s.name}</option>)}
               </select>
             </div>
             <div className="date-field">
               <label>{tx.lastNight}</label>
-              <select value={lastStage} onChange={e => setLastStage(+e.target.value)}>
+              <select value={lastStage} onChange={e => handleLastStageChange(+e.target.value)}>
                 {STAGES.filter((_, i) => i >= firstStage).map((s, i) => (
                   <option key={s.id} value={firstStage + i}>{s.name}</option>
                 ))}
               </select>
+            </div>
+          </div>
+
+          {/* Intermediate Cities */}
+          {lastStage - firstStage > 1 && (
+            <div className="route-customizer">
+              <h4>Customize Your Route (Optional)</h4>
+              <p className="route-hint">By default, all cities are included. Uncheck to skip:</p>
+              <div className="stages-checklist">
+                {STAGES.map((stage, idx) => {
+                  if (idx <= firstStage || idx >= lastStage) return null
+                  const isSelected = intermediateStages.size === 0 || intermediateStages.has(stage.id)
+                  return (
+                    <label key={stage.id} className={`stage-toggle-card ${isSelected ? 'active' : ''}`}>
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => handleIntermediateToggle(stage.id)}
+                      />
+                      <div className="stage-toggle-content">
+                        <span className="stage-toggle-num">Stage {idx + 1}</span>
+                        <span className="stage-toggle-name">{stage.name}</span>
+                        {stage.highlight && <span className="highlight-tag">⭐</span>}
+                        <span className="stage-toggle-dist">{stage.km} km</span>
+                      </div>
+                    </label>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Route Preview */}
+          <div className="route-preview-card">
+            <h4>Your Route</h4>
+            <div className="route-path">
+              {activeStages.map((s, i) => (
+                <span key={s.id}>
+                  {s.name}
+                  {i < activeStages.length - 1 && <span className="arrow-sep">→</span>}
+                </span>
+              ))}
+            </div>
+            <div className="route-stats">
+              <span>🛤️ {totalKm} km</span>
+              <span>📍 {activeStages.length} cities</span>
+              <span>🌙 {totalNights} nights</span>
             </div>
           </div>
         </section>
