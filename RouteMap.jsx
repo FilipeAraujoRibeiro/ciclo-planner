@@ -31,17 +31,18 @@ export default function RouteMap({ stages, hotelCat }) {
       const isHighlight = stage.highlight
 
       const size = isFirst || isLast ? 36 : isHighlight ? 30 : 24
-      const bg = isFirst ? '#2D6A4F' : isLast ? '#E8873A' : isHighlight ? '#40916C' : '#6C9A7E'
+      const bg = isFirst ? '#152930' : isLast ? '#ffff47' : isHighlight ? '#5764ff' : '#2a4d5a'
+      const textColor = isLast ? '#152930' : '#fff'
       const border = isFirst || isLast ? '4px' : '3px'
 
       const icon = L.divIcon({
         className: '',
         html: `<div style="
           width:${size}px;height:${size}px;border-radius:50%;
-          background:${bg};color:#fff;border:${border} solid #fff;
+          background:${bg};color:${textColor};border:${border} solid #fff;
           box-shadow:0 2px 8px rgba(0,0,0,0.3);
           display:flex;align-items:center;justify-content:center;
-          font-size:${size > 30 ? 13 : 11}px;font-weight:700;font-family:DM Sans,sans-serif;
+          font-size:${size > 30 ? 13 : 11}px;font-weight:700;font-family:'GT Haptik','Helvetica Neue',Helvetica,Arial,sans-serif;
         ">${isFirst ? '🚀' : isLast ? '🏁' : idx + 1}</div>`,
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
@@ -50,14 +51,14 @@ export default function RouteMap({ stages, hotelCat }) {
 
       const marker = L.marker([stage.lat, stage.lng], { icon }).addTo(map)
       const catBadge = stage.cats.includes(hotelCat)
-        ? `<span style="display:inline-block;padding:2px 6px;border-radius:4px;background:#E8F5E9;color:#2D6A4F;font-size:10px;font-weight:700;margin-left:4px">${hotelCat}</span>`
+        ? `<span style="display:inline-block;padding:2px 6px;border-radius:4px;background:#e8f4f8;color:#152930;font-size:10px;font-weight:700;margin-left:4px">${hotelCat}</span>`
         : ''
 
       marker.bindPopup(`
         <div style="min-width:160px">
           <strong style="font-size:14px">${stage.name}</strong> ${catBadge}
           <br/><span style="color:#888;font-size:11px">Stage ${idx + 1}${stage.highlight ? ' · ⭐ Highlight' : ''}</span>
-          ${stage.km > 0 ? `<br/><span style="color:#2D6A4F;font-weight:600;font-size:12px">${stage.km} km from previous</span>` : ''}
+          ${stage.km > 0 ? `<br/><span style="color:#152930;font-weight:600;font-size:12px">${stage.km} km from previous</span>` : ''}
           <br/><span style="font-size:12px;color:#555">${stage.desc}</span>
         </div>
       `)
@@ -68,7 +69,7 @@ export default function RouteMap({ stages, hotelCat }) {
     // Route polyline
     const coords = stages.map(s => [s.lat, s.lng])
     const polyline = L.polyline(coords, {
-      color: '#2D6A4F',
+      color: '#152930',
       weight: 4,
       opacity: 0.7,
       dashArray: '8, 6',

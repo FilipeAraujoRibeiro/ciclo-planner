@@ -29,9 +29,8 @@
   gap: 3px;
   text-decoration: none;
 }
-.logo-bolt { font-size: 18px; }
-.logo-name { font-size: 22px; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
-.logo-sub { font-size: 10px; font-weight: 600; color: var(--muted); letter-spacing: 2.5px; }
+.logo-name { font-family: var(--font-logo); font-size: 22px; font-weight: 800; color: var(--ciclo-dark); letter-spacing: -0.5px; }
+.logo-sub { font-size: 10px; font-weight: 600; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; }
 .header-title {
   font-size: 13px;
   font-weight: 600;
@@ -53,7 +52,7 @@
 
 /* ─── Hero ─── */
 .hero {
-  background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 40%, #40916C 100%);
+  background: linear-gradient(135deg, #0e1f25 0%, #152930 40%, #1e3a44 100%);
   padding: 56px 24px 44px;
   position: relative;
   overflow: hidden;
@@ -85,8 +84,9 @@
   font-weight: 700;
   color: #fff;
   margin-bottom: 8px;
-  letter-spacing: -0.3px;
+  letter-spacing: 1px;
   line-height: 1.15;
+  text-transform: uppercase;
 }
 .hero-tagline {
   font-size: 17px;
@@ -100,14 +100,14 @@
   flex-wrap: wrap;
 }
 .hero-badge {
-  background: rgba(255,255,255,0.12);
+  background: rgba(255,255,71,0.15);
   backdrop-filter: blur(8px);
   padding: 7px 16px;
   border-radius: 20px;
   font-size: 13px;
-  color: #fff;
+  color: var(--ciclo-yellow);
   font-weight: 500;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,71,0.2);
 }
 
 /* ─── Nav Pills ─── */
@@ -141,11 +141,11 @@
   white-space: nowrap;
   transition: all 0.15s;
 }
-.nav-pill:hover { border-color: var(--accent); color: var(--accent); }
+.nav-pill:hover { border-color: var(--ciclo-blue); color: var(--ciclo-blue); }
 .nav-pill.active {
-  background: var(--accent-bg);
-  border-color: var(--accent);
-  color: var(--accent);
+  background: var(--ciclo-yellow);
+  border-color: var(--ciclo-yellow);
+  color: var(--ciclo-dark);
   font-weight: 600;
 }
 .nav-pill-icon { font-size: 15px; }
@@ -185,6 +185,8 @@
   font-size: 21px;
   font-weight: 700;
   color: var(--dark);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 .section-subtitle {
   font-size: 13px;
@@ -228,8 +230,8 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--accent);
-  color: #fff;
+  background: var(--ciclo-yellow);
+  color: var(--ciclo-dark);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -599,7 +601,7 @@
   display: inline-block;
   margin-left: 6px;
   font-size: 11px;
-  color: var(--highlight);
+  color: var(--ciclo-blue);
   font-weight: 600;
 }
 .stage-date {
@@ -663,7 +665,7 @@
 
 .included-box {
   background: var(--accent-bg);
-  border: 1px solid rgba(45,106,79,0.2);
+  border: 1px solid rgba(21,41,48,0.2);
   border-radius: var(--radius);
   padding: 20px;
 }
@@ -859,17 +861,19 @@
   justify-content: center;
   gap: 8px;
   padding: 16px 24px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-light));
-  color: #fff;
+  background: var(--ciclo-yellow);
+  color: var(--ciclo-dark);
   border: none;
   border-radius: var(--radius);
   font-size: 16px;
   font-weight: 700;
   text-decoration: none;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   transition: all 0.15s;
 }
-.cta-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.cta-btn:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(255,255,71,0.3); }
 .cta-whatsapp {
   background: linear-gradient(135deg, #25D366, #128C7E);
   flex: 0 0 auto;
@@ -907,16 +911,18 @@
 .bb-price { font-size: 20px; font-weight: 800; color: var(--accent); }
 .bb-cta {
   padding: 9px 18px;
-  background: var(--accent);
-  color: #fff;
+  background: var(--ciclo-yellow);
+  color: var(--ciclo-dark);
   border: none;
   border-radius: var(--radius-sm);
   font-size: 12px;
   font-weight: 700;
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   transition: all 0.15s;
 }
-.bb-cta:hover { background: var(--accent-light); }
+.bb-cta:hover { background: #e6e640; }
 
 /* ─── Footer ─── */
 .footer {
@@ -938,7 +944,7 @@
   flex-wrap: wrap;
 }
 .footer-links a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 13px; }
-.footer-links a:hover { color: #fff; }
+.footer-links a:hover { color: var(--ciclo-yellow); }
 .footer-links span { color: rgba(255,255,255,0.25); }
 .footer-copy { font-size: 11px; color: rgba(255,255,255,0.35); }
 

@@ -167,9 +167,8 @@ export default function App() {
       <header className="header">
         <div className="header-inner">
           <a href="https://ciclo-ebikes.com" className="logo" target="_blank" rel="noopener">
-            <span className="logo-bolt">⚡</span>
             <span className="logo-name">CICLO</span>
-            <span className="logo-sub">EBIKES</span>
+            <span className="logo-sub">URBAN ELECTRIC BIKES</span>
           </a>
           <span className="header-title">{tx.title}</span>
           <button className="lang-btn" onClick={() => setLang(l => l === 'en' ? 'pt' : 'en')}>
@@ -182,7 +181,7 @@ export default function App() {
       <div className="hero">
         <div className="hero-bg" />
         <div className="hero-content">
-          <p className="hero-eyebrow">CICLO EBIKES · Self-Guided Tours</p>
+          <p className="hero-eyebrow">CICLO URBAN ELECTRIC BIKES · Self-Guided Tours</p>
           <h1 className="hero-title">{tx.subtitle}</h1>
           <p className="hero-tagline">{tx.tagline}</p>
           <div className="hero-badges">
@@ -618,9 +617,8 @@ export default function App() {
       <footer className="footer">
         <div className="footer-inner">
           <div className="logo footer-logo">
-            <span className="logo-bolt">⚡</span>
             <span className="logo-name" style={{ color: '#fff' }}>CICLO</span>
-            <span className="logo-sub" style={{ color: 'rgba(255,255,255,0.5)' }}>EBIKES</span>
+            <span className="logo-sub" style={{ color: 'rgba(255,255,255,0.5)' }}>URBAN ELECTRIC BIKES</span>
           </div>
           <div className="footer-links">
             <a href="https://ciclo-ebikes.com" target="_blank" rel="noopener">ciclo-ebikes.com</a>
@@ -629,7 +627,7 @@ export default function App() {
             <span>·</span>
             <a href="mailto:hello@ciclo-ebikes.com">hello@ciclo-ebikes.com</a>
           </div>
-          <p className="footer-copy">© 2025 CICLO EBIKES · Rua General Torres 24, V.N. Gaia, Porto, Portugal</p>
+          <p className="footer-copy">© {new Date().getFullYear()} CICLO Urban Electric Bikes · Rua General Torres 24, V.N. Gaia, Porto, Portugal</p>
         </div>
       </footer>
     </div>
