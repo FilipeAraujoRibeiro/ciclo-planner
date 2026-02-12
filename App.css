@@ -195,17 +195,17 @@
   padding-left: 40px;
 }
 
-/* ─── Travel Mode Grid ─── */
-.mode-grid {
+/* ─── Service Type Grid ─── */
+.service-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
 }
-.mode-card {
+.service-card {
   background: var(--card);
   border: 2px solid var(--border);
   border-radius: var(--radius);
-  padding: 22px 14px;
+  padding: 22px 16px 18px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -213,16 +213,40 @@
   gap: 6px;
   position: relative;
   transition: all 0.15s;
+  cursor: pointer;
 }
-.mode-card:hover { border-color: var(--accent-light); }
-.mode-card.active {
+.service-card:hover { border-color: var(--accent-light); }
+.service-card.active {
   border-color: var(--accent);
   background: var(--accent-bg);
   box-shadow: 0 0 0 1px var(--accent);
 }
-.mode-icon { font-size: 28px; }
-.mode-label { font-size: 15px; font-weight: 700; color: var(--dark); }
-.mode-desc { font-size: 11px; color: var(--muted); line-height: 1.4; }
+.service-icon { font-size: 30px; }
+.service-label { font-size: 16px; font-weight: 700; color: var(--dark); }
+.service-desc { font-size: 11px; color: var(--muted); line-height: 1.4; margin-bottom: 6px; }
+.service-includes {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  text-align: left;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.service-include-item {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 500;
+  line-height: 1.4;
+}
+.service-include-more {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 600;
+  font-style: italic;
+  margin-top: 2px;
+}
 .check-badge {
   position: absolute;
   top: 8px;
@@ -631,37 +655,102 @@
 }
 .dist-time { color: var(--muted); font-size: 12px; }
 
-/* ─── E-Bike ─── */
-.bike-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.bike-card {
+/* ─── Bike Showcase ─── */
+.bike-showcase {
   background: var(--card);
   border: 2px solid var(--border);
   border-radius: var(--radius);
-  padding: 22px;
-  text-align: center;
+  padding: 24px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.bike-showcase-info { flex: 1; }
+.bike-showcase-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0 0 6px;
+}
+.bike-showcase-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+.bike-showcase-price {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+}
+.bike-showcase-price small {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-left: 2px;
+}
+
+/* ─── Size Picker ─── */
+.size-section {
+  margin-bottom: 20px;
+}
+.size-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 10px;
+}
+.size-picker {
+  display: flex;
+  gap: 10px;
+}
+.size-btn {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  position: relative;
+  gap: 4px;
+  padding: 14px 12px;
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
   transition: all 0.15s;
 }
-.bike-card:hover { border-color: var(--accent-light); }
-.bike-card.active {
+.size-btn:hover { border-color: var(--accent-light); }
+.size-btn.active {
   border-color: var(--accent);
   background: var(--accent-bg);
   box-shadow: 0 0 0 1px var(--accent);
 }
-.bike-img { font-size: 34px; }
-.bike-name { font-size: 14px; font-weight: 700; color: var(--dark); margin: 0; }
-.bike-desc { font-size: 11px; color: var(--muted); line-height: 1.4; margin: 0; }
-.bike-price { font-size: 24px; font-weight: 800; color: var(--accent); margin-top: 4px; }
-.bike-price small { font-size: 12px; font-weight: 500; color: var(--muted); }
+.size-letter {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--dark);
+}
+.size-height {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* ─── Bikes Count (Rent Only) ─── */
+.bikes-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+}
+.bikes-count .room-label {
+  font-size: 15px;
+  font-weight: 600;
+}
 
 .included-box {
   background: var(--accent-bg);
@@ -884,6 +973,37 @@
   color: var(--muted);
   margin-top: 10px;
 }
+.cta-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ─── Submit Toast ─── */
+.submit-toast {
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 14px;
+  animation: fadeInToast 0.3s ease;
+}
+.submit-toast.success {
+  background: #e6f9e6;
+  color: #1a7a1a;
+  border: 1px solid #b3e6b3;
+}
+.submit-toast.error {
+  background: #fde8e8;
+  color: #c53030;
+  border: 1px solid #f5c6c6;
+}
+@keyframes fadeInToast {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 /* ─── Bottom Bar ─── */
 .bottom-bar {
@@ -954,6 +1074,7 @@
   .hero-title { font-size: 28px; }
   .hero-tagline { font-size: 15px; }
   .main { padding: 0 16px; }
+  .service-grid { grid-template-columns: 1fr; }
   .dates-grid { grid-template-columns: 1fr; }
   .transfers-grid { grid-template-columns: 1fr; }
   .included-grid { grid-template-columns: 1fr; }
@@ -967,11 +1088,11 @@
   .bb-route + .bb-sep { display: none; }
   .route-path { font-size: 13px; }
   .route-stats { flex-wrap: wrap; gap: 10px; }
+  .bike-showcase { flex-direction: column; text-align: center; }
 }
 @media (max-width: 480px) {
-  .mode-grid { grid-template-columns: 1fr 1fr; }
   .hotel-grid { grid-template-columns: 1fr; }
-  .bike-grid { grid-template-columns: 1fr; }
   .summary-grid { grid-template-columns: 1fr; }
   .summary-card { padding: 18px; }
+  .size-picker { gap: 6px; }
 }

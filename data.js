@@ -1,4 +1,140 @@
-// Porto → Santiago de Compostela (Coastal Camino)
+// ═══════════════════════════════════════════
+// CICLO Planner v2 — Porto to Santiago
+// Data Model
+// ═══════════════════════════════════════════
+
+// ─── Service Types ───
+export const SERVICE_TYPES = [
+  {
+    id: "rent",
+    label: "Rent Only",
+    labelPt: "Aluguer",
+    icon: "🔑",
+    desc: "Premium e-bike rental with all essentials. You plan your own route and accommodation.",
+    descPt: "Aluguer de e-bike premium com todos os essenciais. Planeie a sua rota e alojamento.",
+    showSections: ["dates", "bike", "accessories", "group", "summary"],
+  },
+  {
+    id: "self_guided",
+    label: "Self-Guided",
+    labelPt: "Self-Guided",
+    icon: "🗺️",
+    desc: "Complete package with e-bike, accommodation, luggage transfer, GPS tracks & 24/7 support.",
+    descPt: "Pacote completo com e-bike, alojamento, transferência de bagagem, GPS & suporte 24/7.",
+    showSections: ["dates", "route", "bike", "hotel", "itinerary", "accessories", "addons", "group", "summary"],
+  },
+  {
+    id: "guided",
+    label: "Guided Tour",
+    labelPt: "Tour Guiado",
+    icon: "🧭",
+    desc: "Full experience with professional guide, e-bike, accommodation, meals, luggage transfer & support.",
+    descPt: "Experiência completa com guia profissional, e-bike, alojamento, refeições, bagagem & suporte.",
+    showSections: ["dates", "route", "bike", "hotel", "itinerary", "accessories", "addons", "group", "summary"],
+  },
+];
+
+// ─── Rental Bike ───
+export const RENTAL_BIKE = {
+  name: "Riese & Müller Nevo4 GT Touring",
+  desc: "Premium touring e-bike with Bosch Performance Line CX motor, fully integrated battery, and Schwalbe Marathon Plus tires for puncture protection.",
+  descPt: "E-bike de touring premium com motor Bosch Performance Line CX, bateria totalmente integrada e pneus Schwalbe Marathon Plus anti-furos.",
+  pricePerDay: 60, // placeholder — update with real rate
+};
+
+export const BIKE_SIZES = [
+  { id: "S", label: "S", height: "155–170 cm", heightPt: "155–170 cm" },
+  { id: "M", label: "M", height: "170–180 cm", heightPt: "170–180 cm" },
+  { id: "L", label: "L", height: "180–195 cm", heightPt: "180–195 cm" },
+];
+
+// ─── Included Items (per service type) ───
+export const INCLUDED_ITEMS = {
+  rent: {
+    en: [
+      "Riese & Müller Nevo4 GT e-bike",
+      "Helmet",
+      "Anti-theft lock",
+      "Charger",
+      "Repair kit",
+      "24/7 phone support",
+    ],
+    pt: [
+      "E-bike Riese & Müller Nevo4 GT",
+      "Capacete",
+      "Cadeado anti-roubo",
+      "Carregador",
+      "Kit de reparação",
+      "Suporte telefónico 24/7",
+    ],
+  },
+  self_guided: {
+    en: [
+      "Riese & Müller Nevo4 GT e-bike",
+      "Helmet",
+      "Anti-theft lock",
+      "Charger",
+      "Repair kit",
+      "Accommodation (selected category)",
+      "Daily luggage transfer",
+      "GPS tracks & route documentation",
+      "24/7 phone support",
+      "Bike delivery & collection",
+    ],
+    pt: [
+      "E-bike Riese & Müller Nevo4 GT",
+      "Capacete",
+      "Cadeado anti-roubo",
+      "Carregador",
+      "Kit de reparação",
+      "Alojamento (categoria selecionada)",
+      "Transferência diária de bagagem",
+      "Tracks GPS & documentação da rota",
+      "Suporte telefónico 24/7",
+      "Entrega & recolha da bike",
+    ],
+  },
+  guided: {
+    en: [
+      "Riese & Müller Nevo4 GT e-bike",
+      "Helmet",
+      "Anti-theft lock",
+      "Charger",
+      "Repair kit",
+      "Accommodation (selected category)",
+      "Daily luggage transfer",
+      "Professional cycling guide",
+      "Meals (lunch & dinner)",
+      "GPS tracks & route documentation",
+      "24/7 phone support",
+      "Bike delivery & collection",
+    ],
+    pt: [
+      "E-bike Riese & Müller Nevo4 GT",
+      "Capacete",
+      "Cadeado anti-roubo",
+      "Carregador",
+      "Kit de reparação",
+      "Alojamento (categoria selecionada)",
+      "Transferência diária de bagagem",
+      "Guia profissional de ciclismo",
+      "Refeições (almoço & jantar)",
+      "Tracks GPS & documentação da rota",
+      "Suporte telefónico 24/7",
+      "Entrega & recolha da bike",
+    ],
+  },
+};
+
+// ─── Optional Accessories (paid add-ons for the bike) ───
+export const OPTIONAL_ACCESSORIES = [
+  { id: "panniers", label: "Waterproof Panniers (40L)", labelPt: "Alforges Impermeáveis (40L)", price: 10, unit: "day", icon: "🎒" },
+  { id: "extra_battery", label: "Extra Battery", labelPt: "Bateria Extra", price: 15, unit: "day", icon: "🔋" },
+  { id: "phone_mount", label: "Phone Mount", labelPt: "Suporte Telemóvel", price: 5, unit: "day", icon: "📱" },
+  { id: "gps_unit", label: "GPS Navigation Unit", labelPt: "GPS de Navegação", price: 10, unit: "day", icon: "📍" },
+];
+
+// ─── Stages (Coastal Camino) ───
 export const STAGES = [
   { id: 1,  name: "Porto",                    km: 0,  lat: 41.1579, lng: -8.6291, highlight: true,  cats: ["ST","SU"], desc: "Start your Camino in this UNESCO World Heritage city" },
   { id: 2,  name: "Póvoa de Varzim",          km: 31, lat: 41.3833, lng: -8.7667, highlight: false, cats: ["ST","SU"], desc: "Charming seaside town with beautiful beaches" },
@@ -18,64 +154,41 @@ export const STAGES = [
   { id: 16, name: "Santiago de Compostela",    km: 25, lat: 42.8782, lng: -8.5448, highlight: true,  cats: ["ST","SU","CC"], desc: "Your destination — the majestic Cathedral awaits!" },
 ];
 
-export const TRAVEL_MODES = [
-  { id: "ebike",        label: "E-Bike",        labelPt: "E-Bike",          icon: "⚡", desc: "Premium e-bike, comfortable 40-60km/day", descPt: "E-bike premium, confortável 40-60km/dia", avgKm: 50 },
-  { id: "cycling",      label: "Cycling",       labelPt: "Ciclismo",        icon: "🚲", desc: "Standard cycling, avg 40km/day",           descPt: "Ciclismo padrão, média 40km/dia",         avgKm: 40 },
-];
-
+// ─── Hotel Categories ───
 export const HOTEL_CATS = [
   { id: "ST", label: "Standard",      labelPt: "Standard",      icon: "🏨", desc: "Quality en-suite rooms, great location & service",        descPt: "Quartos com casa de banho privada, boa localização",  priceBase: 75  },
   { id: "CC", label: "Country House", labelPt: "Casa de Campo", icon: "🏡", desc: "Charming rural stays & country houses",                   descPt: "Casas rurais encantadoras e turismo rural",           priceBase: 95  },
   { id: "SU", label: "Superior",      labelPt: "Superior",      icon: "⭐", desc: "Premium hotels with top amenities",                       descPt: "Hotéis premium com as melhores comodidades",         priceBase: 120 },
 ];
 
-export const EBIKE_MODELS = [
-  { id: "riese_nevo",    name: "Riese & Müller Nevo4",   desc: "Comfort touring e-bike — ideal for long-distance Camino riding", descPt: "E-bike de touring confortável — ideal para longas distâncias",  price: 35, img: "🚴" },
-  { id: "riese_delite",  name: "Riese & Müller Delite4",  desc: "Full suspension for ultimate comfort on any terrain",            descPt: "Suspensão total para máximo conforto em qualquer terreno",      price: 45, img: "🚵" },
-  { id: "tern_quickhaul", name: "Tern Quick Haul",         desc: "Compact & nimble, great for mixed terrain & panniers",           descPt: "Compacta e ágil, excelente para terreno misto",                 price: 30, img: "🚲" },
-];
-
+// ─── Add-ons (for self-guided / guided only) ───
 export const ADDONS = [
-  { id: "luggage",      label: "Luggage Transfer",     labelPt: "Transferência de Bagagem",  desc: "Daily luggage transfer between hotels. Max 20kg/bag, leave at reception by 8am, delivered by 4pm.", descPt: "Transferência diária de bagagem entre hotéis. Máx 20kg/mala, deixar na receção até 8h, entregue até 16h.", price: 15, unit: "stage", icon: "🧳" },
-  { id: "dinner",       label: "Dinner Package",       labelPt: "Pacote Jantar",             desc: "Evening meals in smaller towns with limited dining options. In cities, you explore local restaurants.", descPt: "Jantares em cidades pequenas com opções limitadas. Nas cidades, exploram restaurantes locais.", price: 25, unit: "night", icon: "🍽️" },
-  { id: "santiago_tour", label: "Santiago City Tour",   labelPt: "Tour Santiago",             desc: "80-min guided walking tour through the historic city, ending at iconic Café Casino (est. 1873). Booked at 4pm on your first night.", descPt: "Tour guiado de 80 min pela cidade histórica, terminando no icónico Café Casino (1873). Reservado às 16h.", price: 35, unit: "person", icon: "🏛️" },
-  { id: "tapas_tour",   label: "Santiago Tapas Tour",   labelPt: "Tour de Tapas Santiago",    desc: "3-hour food discovery through Old Town with expert local guide. The best of Galician cuisine. Booked at 7pm.", descPt: "3 horas de descoberta gastronómica pelo centro histórico com guia local. O melhor da cozinha galega.", price: 65, unit: "person", icon: "🍷" },
-  { id: "finisterre",   label: "Finisterre Day Tour",  labelPt: "Tour Finisterra",           desc: "Full-day tour to 'the end of the world' — coastline, lighthouses & Galician villages. 9am-6:30pm. Extra night in Santiago required.", descPt: "Tour de dia inteiro ao 'fim do mundo' — costa, faróis e aldeias galegas. 9h-18h30. Noite extra em Santiago.", price: 55, unit: "person", icon: "🌊" },
-  { id: "massage_30",   label: "Massage 30min",         labelPt: "Massagem 30min",            desc: "Rejuvenating massage at Spazio Wellness in Santiago, daily 10am-8:30pm.", descPt: "Massagem rejuvenescedora no Spazio Wellness em Santiago, diariamente 10h-20h30.", price: 40, unit: "person", icon: "💆" },
-  { id: "massage_60",   label: "Massage 60min",         labelPt: "Massagem 60min",            desc: "Extended relaxation massage at Spazio Wellness in Santiago, daily 10am-8:30pm.", descPt: "Massagem de relaxamento prolongada no Spazio Wellness em Santiago, diariamente 10h-20h30.", price: 65, unit: "person", icon: "💆‍♂️" },
+  { id: "dinner",       label: "Dinner Package",       labelPt: "Pacote Jantar",             desc: "Evening meals in smaller towns with limited dining options. In cities, you explore local restaurants.", descPt: "Jantares em cidades pequenas com opções limitadas. Nas cidades, exploram restaurantes locais.", price: 25, unit: "night", icon: "🍽️",  forServices: ["self_guided"] },
+  { id: "santiago_tour", label: "Santiago City Tour",   labelPt: "Tour Santiago",             desc: "80-min guided walking tour through the historic city, ending at iconic Café Casino (est. 1873).", descPt: "Tour guiado de 80 min pela cidade histórica, terminando no icónico Café Casino (1873).", price: 35, unit: "person", icon: "🏛️", forServices: ["self_guided", "guided"] },
+  { id: "tapas_tour",   label: "Santiago Tapas Tour",   labelPt: "Tour de Tapas Santiago",    desc: "3-hour food discovery through Old Town with expert local guide. The best of Galician cuisine.", descPt: "3 horas de descoberta gastronómica pelo centro histórico com guia local. O melhor da cozinha galega.", price: 65, unit: "person", icon: "🍷", forServices: ["self_guided", "guided"] },
+  { id: "finisterre",   label: "Finisterre Day Tour",  labelPt: "Tour Finisterra",           desc: "Full-day tour to 'the end of the world' — coastline, lighthouses & Galician villages. Extra night in Santiago required.", descPt: "Tour de dia inteiro ao 'fim do mundo' — costa, faróis e aldeias galegas. Noite extra em Santiago.", price: 55, unit: "person", icon: "🌊", forServices: ["self_guided", "guided"] },
+  { id: "massage_30",   label: "Massage 30min",         labelPt: "Massagem 30min",            desc: "Rejuvenating massage at Spazio Wellness in Santiago.", descPt: "Massagem rejuvenescedora no Spazio Wellness em Santiago.", price: 40, unit: "person", icon: "💆", forServices: ["self_guided", "guided"] },
+  { id: "massage_60",   label: "Massage 60min",         labelPt: "Massagem 60min",            desc: "Extended relaxation massage at Spazio Wellness in Santiago.", descPt: "Massagem de relaxamento prolongada no Spazio Wellness em Santiago.", price: 65, unit: "person", icon: "💆‍♂️", forServices: ["self_guided", "guided"] },
 ];
 
-export const INCLUDED_EBIKE = {
-  en: [
-    "E-bike rental for the full trip",
-    "Helmet & repair kit",
-    "Waterproof panniers (40L total)",
-    "Bike delivery to first hotel",
-    "Return collection at Santiago",
-    "24/7 phone support line",
-  ],
-  pt: [
-    "Aluguer de e-bike para toda a viagem",
-    "Capacete e kit de reparação",
-    "Alforges impermeáveis (40L total)",
-    "Entrega da bike no primeiro hotel",
-    "Recolha em Santiago",
-    "Linha de apoio 24/7",
-  ],
-};
+// ─── Pricing Supplements (placeholders) ───
+export const GUIDE_SUPPLEMENT_PER_DAY = 100; // placeholder
 
+// ─── Translations ───
 export const TRANSLATIONS = {
   en: {
     title: "Camino Trip Planner",
-    subtitle: "Porto → Santiago de Compostela",
-    tagline: "Self-guided e-bike tours along the Coastal Camino",
-    travelMode: "Travel Mode",
+    subtitle: "Rent an E-Bike from Porto to Santiago de Compostela",
+    tagline: "Experience the Coastal Camino de Santiago on a premium Riese & Müller e-bike",
+    serviceType: "Service Type",
     hotel: "Accommodation",
     dates: "Trip Dates",
     itinerary: "Your Itinerary",
-    ebike: "E-Bike Selection",
+    bikeSize: "E-Bike & Size",
     addons: "Extras & Add-ons",
+    accessories: "Accessories",
     summary: "Trip Summary",
+    group: "Travellers & Rooms",
     startDate: "Start Date",
     endDate: "End Date",
     firstNight: "Start From",
@@ -94,8 +207,7 @@ export const TRANSLATIONS = {
     single: "Single (1 bed)",
     twin: "Twin (2 beds)",
     double: "Double (1 bed)",
-    selectBike: "Choose your e-bike",
-    included: "Included with every e-bike",
+    included: "What's Included",
     transfers: "Transfers",
     inTransfer: "Incoming Transfer",
     outTransfer: "Outgoing Transfer",
@@ -109,21 +221,36 @@ export const TRANSLATIONS = {
     perStage: "per stage",
     perNight: "per night",
     perPerson2: "per person",
-    ebikeNote: "All bikes include delivery, return, helmet, panniers & 24/7 support",
-    day: "/day",
+    perDay: "/day",
     selectDates: "Select your travel dates",
+    bikeModel: "Your E-Bike",
+    selectSize: "Select your size",
+    riderHeight: "Rider height",
+    optionalAccessories: "Optional Accessories",
+    accessoriesNote: "Add accessories to your rental. Prices are per day of rental.",
+    service: "Service",
+    submitting: "Sending...",
+    submitSuccess: "Your request has been sent! We'll get back to you within 24 hours.",
+    submitError: "Something went wrong. Please try email or WhatsApp instead.",
+    nameRequired: "Please enter your name",
+    emailRequired: "Please enter your email",
+    guideSupplement: "Guide supplement",
+    mealsIncluded: "Meals included",
+    numberOfBikes: "Number of E-Bikes",
   },
   pt: {
     title: "Planificador do Caminho",
-    subtitle: "Porto → Santiago de Compostela",
-    tagline: "Tours self-guided de e-bike pelo Caminho Costeiro",
-    travelMode: "Modo de Viagem",
+    subtitle: "Alugue uma E-Bike do Porto a Santiago de Compostela",
+    tagline: "Experiencie o Caminho de Santiago Costeiro numa e-bike premium Riese & Müller",
+    serviceType: "Tipo de Serviço",
     hotel: "Alojamento",
     dates: "Datas da Viagem",
     itinerary: "O Seu Itinerário",
-    ebike: "Seleção de E-Bike",
+    bikeSize: "E-Bike & Tamanho",
     addons: "Extras & Complementos",
+    accessories: "Acessórios",
     summary: "Resumo da Viagem",
+    group: "Viajantes & Quartos",
     startDate: "Data de Início",
     endDate: "Data de Fim",
     firstNight: "Início Em",
@@ -142,8 +269,7 @@ export const TRANSLATIONS = {
     single: "Individual (1 cama)",
     twin: "Twin (2 camas)",
     double: "Duplo (1 cama)",
-    selectBike: "Escolha a sua e-bike",
-    included: "Incluído com cada e-bike",
+    included: "O Que Está Incluído",
     transfers: "Transfers",
     inTransfer: "Transfer de Chegada",
     outTransfer: "Transfer de Saída",
@@ -157,8 +283,21 @@ export const TRANSLATIONS = {
     perStage: "por etapa",
     perNight: "por noite",
     perPerson2: "por pessoa",
-    ebikeNote: "Todas as bikes incluem entrega, recolha, capacete, alforges e apoio 24/7",
-    day: "/dia",
+    perDay: "/dia",
     selectDates: "Selecione as datas da viagem",
+    bikeModel: "A Sua E-Bike",
+    selectSize: "Selecione o seu tamanho",
+    riderHeight: "Altura do ciclista",
+    optionalAccessories: "Acessórios Opcionais",
+    accessoriesNote: "Adicione acessórios ao seu aluguer. Preços por dia de aluguer.",
+    service: "Serviço",
+    submitting: "A enviar...",
+    submitSuccess: "O seu pedido foi enviado! Respondemos em 24 horas.",
+    submitError: "Algo correu mal. Tente por email ou WhatsApp.",
+    nameRequired: "Por favor insira o seu nome",
+    emailRequired: "Por favor insira o seu email",
+    guideSupplement: "Suplemento guia",
+    mealsIncluded: "Refeições incluídas",
+    numberOfBikes: "Número de E-Bikes",
   },
 };
